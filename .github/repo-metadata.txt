@@ -1,0 +1,3 @@
+﻿repository=tcknvkn-jquery
+description=jQuery için TCKN (TC Kimlik No) ve VKN (Vergi Kimlik No) doğrulama kütüphanesi
+homepage=https://www.tcknvkn.com/kutuphaneler/jquery

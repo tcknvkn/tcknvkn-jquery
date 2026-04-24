@@ -1,0 +1,52 @@
+﻿{
+  "name": "@tcknvkn/jquery",
+  "version": "1.0.0",
+  "description": "jQuery için TCKN (TC Kimlik No) ve VKN (Vergi Kimlik No) doğrulama eklentisi",
+  "author": "TCKNVKN <239645710+tckn-vkn@users.noreply.github.com>",
+  "license": "MIT",
+  "homepage": "https://www.tcknvkn.com/kutuphaneler/jquery",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tcknvkn/tcknvkn-jquery.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tcknvkn/tcknvkn-jquery/issues"
+  },
+  "keywords": [
+    "jquery",
+    "validator",
+    "tckn",
+    "vkn",
+    "tc üret",
+    "tc uret",
+    "tc no üret",
+    "tc no uret",
+    "tc oluştur",
+    "vkn üret",
+    "vergi no üret",
+    "vergi no oluşturucu",
+    "vkn algoritması",
+    "vkn doğrulama algoritması"
+  ],
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test tests/index.test.js",
+    "build": "node -e \"console.log('Build complete: @tcknvkn/jquery')\"",
+    "pack:dry": "npm pack --dry-run"
+  },
+  "peerDependencies": {
+    "jquery": ">=3.7.1"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
