@@ -1,0 +1,11 @@
+# GitHub repo ayarlarının kaynağı (FAZ4-4c.4).
+# gh repo edit çağrıları bu dosyadan beslenir; elle GitHub üzerinden değiştirme.
+
+repo=tcknvkn-jquery
+local_dir=jquery
+default_branch=release
+package_id=@tcknvkn/jquery
+registry=npm
+homepage=https://www.tcknvkn.com/kutuphaneler/jquery
+topics=tckn,vkn,tc-kimlik-no,vergi-kimlik-no,validation,turkish,jquery
+# description: GitHub üzerindeki mevcut açıklama korunur
