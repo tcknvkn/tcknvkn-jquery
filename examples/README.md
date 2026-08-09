@@ -1,4 +1,4 @@
-﻿# Örnekler
+# Örnekler
 
 Bu klasör, `@tcknvkn/jquery` için hızlı başlangıç örneklerini içerir.
 

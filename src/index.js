@@ -1,4 +1,4 @@
-﻿/**
+/**
  * tcknvkn-jquery doğrulama eklentisi ve çekirdek doğrulama yardımcıları.
  * Oluşturulma tarihi: 2026-04-24
  * Lisans: MIT

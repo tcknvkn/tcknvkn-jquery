@@ -1,4 +1,4 @@
-﻿# @tcknvkn/jquery
+# @tcknvkn/jquery
 
 `@tcknvkn/jquery`, jQuery tabanlı projelerde **TCKN (TC Kimlik Numarası)** ve **VKN (Vergi Kimlik Numarası)** doğrulama işlemleri için hazırlanmış hafif bir eklenti ve çekirdek doğrulama kütüphanesidir.
 

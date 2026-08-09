@@ -1,4 +1,4 @@
-﻿# Testler
+# Testler
 
 Bu klasör, `@tcknvkn/jquery` kütüphanesinin birim testlerini içerir.
 

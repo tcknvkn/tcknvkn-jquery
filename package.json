@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "@tcknvkn/jquery",
   "version": "1.0.0",
   "description": "jQuery için TCKN (TC Kimlik No) ve VKN (Vergi Kimlik No) doğrulama eklentisi",

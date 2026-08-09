@@ -1,4 +1,4 @@
-﻿# Değişiklik Günlüğü
+# Değişiklik Günlüğü
 
 Bu dosya projedeki önemli değişiklikleri içerir.
 
