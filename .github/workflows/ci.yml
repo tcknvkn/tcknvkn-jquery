@@ -28,9 +28,37 @@ jobs:
 
   verify-tag-on-release:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    needs: test-and-build
     runs-on: ubuntu-latest
+    outputs:
+      is_stable: ${{ steps.tag-bicimi.outputs.is_stable }}
+      is_beta: ${{ steps.tag-bicimi.outputs.is_beta }}
 
     steps:
+      # Etiket bicimi kapisi — on surumun kararli kanala sizmasini engeller.
+      # GitHub Actions `if:` ifadelerinde regex yoktur; siniflandirma burada
+      # yapilir ve yayin isleri yalnizca bu ciktilara bakar.
+      #   vX.Y.Z         -> kararli
+      #   vX.Y.Z-<onek>  -> on surum (-alpha, -beta, -rc, -preview, -dev ...)
+      #   digerleri      -> FAIL (hicbir kanala gitmez)
+      - name: Etiket bicimini siniflandir
+        id: tag-bicimi
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          if [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "is_stable=true" >> "$GITHUB_OUTPUT"
+            echo "is_beta=false" >> "$GITHUB_OUTPUT"
+            echo "Kararli surum etiketi: $TAG"
+          elif [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-[0-9A-Za-z.-]+$ ]]; then
+            echo "is_stable=false" >> "$GITHUB_OUTPUT"
+            echo "is_beta=true" >> "$GITHUB_OUTPUT"
+            echo "On surum etiketi: $TAG"
+          else
+            echo "::error::Gecersiz etiket bicimi: $TAG"
+            echo "Beklenen: vX.Y.Z (kararli) veya vX.Y.Z-<onek> (on surum)"
+            exit 1
+          fi
+
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
@@ -46,7 +74,7 @@ jobs:
           fi
 
   publish-beta:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && (contains(github.ref_name, '-beta') || contains(github.ref_name, '-alpha'))
+    if: needs.verify-tag-on-release.outputs.is_beta == 'true'
     needs:
       - test-and-build
       - verify-tag-on-release
@@ -72,7 +100,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   publish-stable:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-beta') && !contains(github.ref_name, '-alpha')
+    if: needs.verify-tag-on-release.outputs.is_stable == 'true'
     needs:
       - test-and-build
       - verify-tag-on-release
@@ -98,9 +126,10 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   release-beta:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && (contains(github.ref_name, '-beta') || contains(github.ref_name, '-alpha'))
+    if: needs.verify-tag-on-release.outputs.is_beta == 'true'
     needs:
       - publish-beta
+      - verify-tag-on-release
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -115,9 +144,10 @@ jobs:
           generate_release_notes: true
 
   release-stable:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-beta') && !contains(github.ref_name, '-alpha')
+    if: needs.verify-tag-on-release.outputs.is_stable == 'true'
     needs:
       - publish-stable
+      - verify-tag-on-release
     runs-on: ubuntu-latest
     permissions:
       contents: write
