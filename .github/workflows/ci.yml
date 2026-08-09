@@ -130,3 +130,27 @@ jobs:
           name: ${{ github.ref_name }}
           prerelease: false
           generate_release_notes: true
+
+  # Golden dataset tcknvkn/spec reposundan kopyalanmistir; ELLE DUZENLENMEZ.
+  # Kopyalanan dosya zamanla sessizce ayrisir - biri duzeltilir, on sekizi eski
+  # kalir. Bu kapi farki merge aninda yakalar.
+  #
+  # Dataset guncellendiginde: once tcknvkn/spec reposunda yeni surum etiketlenir,
+  # sonra buradaki dosya ve asagidaki hash birlikte guncellenir.
+  golden-dataset:
+    runs-on: ubuntu-latest
+    env:
+      # tcknvkn/spec @ spec-v1.0.0
+      GOLDEN_SHA256: e472cca15d825160877053da1e6e7078e8c1c18ef32fa25f5abb100bef217df9
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Kopya kanonik surumle ayni mi
+        run: |
+          if ! echo "${GOLDEN_SHA256}  tests/golden-dataset.json" | sha256sum -c - ; then
+            echo "::error::tests/golden-dataset.json kanonik surumden farkli."
+            echo "beklenen: ${GOLDEN_SHA256}"
+            echo "bulunan : $(sha256sum tests/golden-dataset.json | awk '{print $1}')"
+            echo "kanonik kaynak: https://github.com/tcknvkn/spec (spec-v1.0.0)"
+            exit 1
+          fi

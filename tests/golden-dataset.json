@@ -1,0 +1,363 @@
+{
+  "specVersion": "1.0.0",
+  "errorCodes": [
+    "invalid_length",
+    "invalid_characters",
+    "invalid_first_digit",
+    "invalid_pattern",
+    "invalid_checksum"
+  ],
+  "rules": {
+    "normalize": "Yalnizca bas/son bosluk kirpilir. Icerideki karakterler TEMIZLENMEZ.",
+    "errorOrder": "length -> characters -> first_digit -> pattern -> checksum",
+    "allSameDigits": "Tum haneleri ayni olan degerler gecersizdir (invalid_pattern), checksum tutsa bile. Etkilenen tek checksum-gecerli deger: VKN 4444444444.",
+    "checksumEvaluation": "checksum yalnizca onceki uc kontrol temizse hesaplanir",
+    "emptyInput": "null/undefined/bos deger invalid_length dondurur",
+    "firstDigit": "TCKN: d1 in [1-9]. VKN: normatif formulde ilk hane kisiti yok.",
+    "batch": "Her eleman bagimsiz degerlendirilir; sonuc sirasi girdi sirasidir."
+  },
+  "tckn": {
+    "valid": [
+      "10000000146",
+      "23456789060",
+      "34567891238",
+      "98765432150",
+      "51234567890",
+      "76000001262",
+      " 10000000146 "
+    ],
+    "invalid": [
+      "123",
+      "100000001460",
+      "",
+      "1000000014a",
+      "10000000-46",
+      "100 000 001 46",
+      "01234567890",
+      "09999999999",
+      "11111111111",
+      "99999999999",
+      "11111111112",
+      "12345678901",
+      "10000000147",
+      "0a1",
+      "0123"
+    ],
+    "cases": [
+      {
+        "input": "10000000146",
+        "valid": true,
+        "errors": [],
+        "note": "gecerli"
+      },
+      {
+        "input": "23456789060",
+        "valid": true,
+        "errors": [],
+        "note": "gecerli"
+      },
+      {
+        "input": "34567891238",
+        "valid": true,
+        "errors": [],
+        "note": "gecerli"
+      },
+      {
+        "input": "98765432150",
+        "valid": true,
+        "errors": [],
+        "note": "gecerli"
+      },
+      {
+        "input": "51234567890",
+        "valid": true,
+        "errors": [],
+        "note": "gecerli"
+      },
+      {
+        "input": "76000001262",
+        "valid": true,
+        "errors": [],
+        "note": "gecerli"
+      },
+      {
+        "input": " 10000000146 ",
+        "valid": true,
+        "errors": [],
+        "note": "bas/son bosluk kirpilir; gecerli kalir"
+      },
+      {
+        "input": "123",
+        "valid": false,
+        "errors": [
+          "invalid_length"
+        ],
+        "note": "cok kisa"
+      },
+      {
+        "input": "100000001460",
+        "valid": false,
+        "errors": [
+          "invalid_length"
+        ],
+        "note": "cok uzun (12 hane)"
+      },
+      {
+        "input": "",
+        "valid": false,
+        "errors": [
+          "invalid_length"
+        ],
+        "note": "bos girdi → invalid_length (spec §3)"
+      },
+      {
+        "input": "1000000014a",
+        "valid": false,
+        "errors": [
+          "invalid_characters"
+        ],
+        "note": "11 karakter, harf iceriyor"
+      },
+      {
+        "input": "10000000-46",
+        "valid": false,
+        "errors": [
+          "invalid_characters"
+        ],
+        "note": "11 karakter, tire iceriyor"
+      },
+      {
+        "input": "100 000 001 46",
+        "valid": false,
+        "errors": [
+          "invalid_length",
+          "invalid_characters"
+        ],
+        "note": "ic bosluk temizlenmez: hem uzunluk hem karakter hatasi"
+      },
+      {
+        "input": "01234567890",
+        "valid": false,
+        "errors": [
+          "invalid_first_digit"
+        ],
+        "note": "ilk hane 0"
+      },
+      {
+        "input": "09999999999",
+        "valid": false,
+        "errors": [
+          "invalid_first_digit"
+        ],
+        "note": "ilk hane 0"
+      },
+      {
+        "input": "11111111111",
+        "valid": false,
+        "errors": [
+          "invalid_pattern"
+        ],
+        "note": "tum haneler ayni"
+      },
+      {
+        "input": "99999999999",
+        "valid": false,
+        "errors": [
+          "invalid_pattern"
+        ],
+        "note": "tum haneler ayni (checksum da tutmuyor ama pattern once doner)"
+      },
+      {
+        "input": "11111111112",
+        "valid": false,
+        "errors": [
+          "invalid_checksum"
+        ],
+        "note": "checksum hatasi"
+      },
+      {
+        "input": "12345678901",
+        "valid": false,
+        "errors": [
+          "invalid_checksum"
+        ],
+        "note": "checksum hatasi"
+      },
+      {
+        "input": "10000000147",
+        "valid": false,
+        "errors": [
+          "invalid_checksum"
+        ],
+        "note": "yalnizca 11. hane bozuk"
+      },
+      {
+        "input": "0a1",
+        "valid": false,
+        "errors": [
+          "invalid_length",
+          "invalid_characters",
+          "invalid_first_digit"
+        ],
+        "note": "coklu hata sirasi: length → characters → first_digit"
+      },
+      {
+        "input": "0123",
+        "valid": false,
+        "errors": [
+          "invalid_length",
+          "invalid_first_digit"
+        ],
+        "note": "coklu hata: length + first_digit"
+      }
+    ]
+  },
+  "vkn": {
+    "valid": [
+      "1000036109",
+      "2345678917",
+      "3456789127",
+      "9876543217",
+      "5123456783",
+      " 1000036109 ",
+      "1234567890"
+    ],
+    "invalid": [
+      "123",
+      "10000361090",
+      "",
+      "123456789a",
+      "12345678-0",
+      "123 456 789 0",
+      "1000036100",
+      "9876543210",
+      "4444444444",
+      "1111111111"
+    ],
+    "cases": [
+      {
+        "input": "1000036109",
+        "valid": true,
+        "errors": [],
+        "note": "gecerli"
+      },
+      {
+        "input": "2345678917",
+        "valid": true,
+        "errors": [],
+        "note": "gecerli"
+      },
+      {
+        "input": "3456789127",
+        "valid": true,
+        "errors": [],
+        "note": "gecerli"
+      },
+      {
+        "input": "9876543217",
+        "valid": true,
+        "errors": [],
+        "note": "gecerli"
+      },
+      {
+        "input": "5123456783",
+        "valid": true,
+        "errors": [],
+        "note": "gecerli"
+      },
+      {
+        "input": " 1000036109 ",
+        "valid": true,
+        "errors": [],
+        "note": "bas/son bosluk kirpilir; gecerli kalir"
+      },
+      {
+        "input": "123",
+        "valid": false,
+        "errors": [
+          "invalid_length"
+        ],
+        "note": "cok kisa"
+      },
+      {
+        "input": "10000361090",
+        "valid": false,
+        "errors": [
+          "invalid_length"
+        ],
+        "note": "cok uzun (11 hane)"
+      },
+      {
+        "input": "",
+        "valid": false,
+        "errors": [
+          "invalid_length"
+        ],
+        "note": "bos girdi → invalid_length (spec §3)"
+      },
+      {
+        "input": "123456789a",
+        "valid": false,
+        "errors": [
+          "invalid_characters"
+        ],
+        "note": "10 karakter, harf iceriyor"
+      },
+      {
+        "input": "12345678-0",
+        "valid": false,
+        "errors": [
+          "invalid_characters"
+        ],
+        "note": "10 karakter, tire iceriyor"
+      },
+      {
+        "input": "123 456 789 0",
+        "valid": false,
+        "errors": [
+          "invalid_length",
+          "invalid_characters"
+        ],
+        "note": "ic bosluk temizlenmez: hem uzunluk hem karakter hatasi"
+      },
+      {
+        "input": "1234567890",
+        "valid": true,
+        "errors": [],
+        "note": "GECERLI — eski dataset yanlislikla gecersiz listelemisti"
+      },
+      {
+        "input": "1000036100",
+        "valid": false,
+        "errors": [
+          "invalid_checksum"
+        ],
+        "note": "yalnizca kontrol hanesi bozuk"
+      },
+      {
+        "input": "9876543210",
+        "valid": false,
+        "errors": [
+          "invalid_checksum"
+        ],
+        "note": "checksum hatasi"
+      },
+      {
+        "input": "4444444444",
+        "valid": false,
+        "errors": [
+          "invalid_pattern"
+        ],
+        "note": "tum haneler ayni — checksum gecerli olmasina ragmen reddedilir"
+      },
+      {
+        "input": "1111111111",
+        "valid": false,
+        "errors": [
+          "invalid_pattern"
+        ],
+        "note": "tum haneler ayni"
+      }
+    ]
+  }
+}
